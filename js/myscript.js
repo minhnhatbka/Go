@@ -4,11 +4,32 @@ var NtmFlashCard = (function () {
     var currentCardId = 0;
     var isFrond = {};
     var isPlaying = false;
+    var myInterval;
     var init = function () {
-        NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt");
+        NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", false);
         initEvent();
     };
     var initEvent = function () {
+        $("#checkBox").on("change", function () {
+            var val = $("#checkBox").is(':checked')
+            if (val){
+                NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", true);
+            }else {
+                NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", false);
+            }
+        });
+        $("#playPause").on("click", function () {
+            if (isPlaying) {
+                pause();
+            } else {
+                var val = $("#inputTimer").val();
+                if (val){
+                    play(val);
+                }else {
+                    play();
+                }
+            }
+        });
         $("#prev").on("click", function () {
             if (currentCardId > 0) {
                 currentCardId--;
@@ -52,7 +73,12 @@ var NtmFlashCard = (function () {
                         pause();
                         break;
                     } else {
-                        play();
+                        var val = $("#inputTimer").val();
+                        if (val){
+                            play(val);
+                        }else {
+                            play();
+                        }
                         break;
                     }
                     break;
@@ -81,23 +107,27 @@ var NtmFlashCard = (function () {
     var play = function (numberOfMinisecond) {
         console.log("play");
         isPlaying = true;
+        flip();
         var time = 2000;
         if (numberOfMinisecond) {
             time = numberOfMinisecond;
         }
-        setInterval(function () {
+        myInterval = setInterval(function () {
             if(isPlaying && currentCardId<=cards.length){
                 next();
                 setTimeout(function(){
                     flip();
-                },time/2);
+                },time);
             }else {
                 isPlaying = false;
                 return;
             }
-        }, time); //default is 2000 = 2s
+        }, time*1.6); //default is 2000 = 2s
     };
     var pause = function () {
+        if (myInterval != null) {
+            clearInterval(myInterval);
+        }
         console.log("pause");
         isPlaying = false;
     };
@@ -173,13 +203,13 @@ var NtmFlashCard = (function () {
     };
     var clearCard = function () {
         container.empty();
-        var helloCard = '<li class="card"><div class="side_one"><p>Hello</p></div><div class="side_two"><p>Xin chào</p></div></li>';
+        var helloCard = '<li class="card"><div class="side_one"><p>人</p></div><div class="side_two"><p>Nhân</p></div></li>';
         container.append(helloCard);
     }
     var open = function () {
         alert("ahihi");
     };
-    var loadData = function (fileName) {
+    var loadData = function (fileName, isRandom) {
         var card = {};
         $.get(fileName, function (data) {
             var lines = data.split("\n");
@@ -193,9 +223,28 @@ var NtmFlashCard = (function () {
                     isFrond[i] = true;
                 }
             });
+            if (isRandom){
+                cards = random();
+            }
             createCards(cards);
         });
-    }
+    };
+    var random = function(){
+        function random_sort (thing)
+        {
+            return (0.5 - Math.random() );
+        }
+        var idRandoms = [];
+        var cardReturn = [];
+        $.each(cards, function (i,v) {
+            idRandoms.push(i);
+        });
+        idRandoms.sort(random_sort);
+        $.each(idRandoms, function (i,v) {
+            cardReturn.push(cards[v]);
+        });
+        return cardReturn;
+    };
     return {
         createCards: createCards,
         clearCard: clearCard,
