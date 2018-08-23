@@ -22,8 +22,12 @@ var NtmFlashCard = (function () {
         });
         $("#playPause").on("click", function () {
             if (isPlaying) {
+                $("#playPauseIcon").removeClass( "glyphicon glyphicon-play glyphicon-pause" ).addClass( "glyphicon glyphicon-play" );
+                $("#playPauseTitle").text("P");
                 pause();
             } else {
+                $("#playPauseIcon").removeClass( "glyphicon glyphicon-play glyphicon-pause" ).addClass( "glyphicon glyphicon-pause" );
+                $("#playPauseTitle").text("P");
                 var val = $("#inputTimer").val();
                 if (val){
                     play(val);
@@ -201,7 +205,7 @@ var NtmFlashCard = (function () {
         }
     };
     var createCard = function (key, value) {
-        return '<li class="card"><div class="side_one" style="font-size: 120px;"><p>' + key + '</p></div><div class="side_two" style="font-size: 60px;"><p>' + value + '</p></div></li>';
+        return '<li class="card"><div class="side_one" style="font-size: 90px;"><p>' + key + '</p></div><div class="side_two" style="font-size: 50px;"><p>' + value + '</p></div></li>';
     };
     var clearCard = function () {
         container.empty();
@@ -257,8 +261,16 @@ var NtmFlashCard = (function () {
             NtmFlashCard.loadData(link, false);
         }
     };
+    var openNav = function() {
+        document.getElementById("mySidenav").style.height = "320px";
+    };
+    var closeNav = function(){
+        document.getElementById("mySidenav").style.height = "0";
+    };
     return {
         createCards: createCards,
+        openNav: openNav,
+        closeNav: closeNav,
         clearCard: clearCard,
         loadData: loadData,
         createCard: createCard,
