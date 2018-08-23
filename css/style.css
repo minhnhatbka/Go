@@ -332,14 +332,6 @@ a:hover {
 #main {
     transition: margin-left .5s;
 }
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-    .sidenav a {
-        font-size: 18px;
-    }
-}
 
 @media only screen and (max-width: 600px) {
     #deck {
