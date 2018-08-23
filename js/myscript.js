@@ -5,17 +5,19 @@ var NtmFlashCard = (function () {
     var isFrond = {};
     var isPlaying = false;
     var myInterval;
+    var link = "";
     var init = function () {
-        NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", false);
+        link = "https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n5.txt";
+        NtmFlashCard.loadData(link, false);
         initEvent();
     };
     var initEvent = function () {
         $("#checkBox").on("change", function () {
             var val = $("#checkBox").is(':checked')
-            if (val){
-                NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", true);
+            if (val == true){
+                NtmFlashCard.loadData(link, true);
             }else {
-                NtmFlashCard.loadData("https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n2.txt", false);
+                NtmFlashCard.loadData(link, false);
             }
         });
         $("#playPause").on("click", function () {
@@ -211,6 +213,7 @@ var NtmFlashCard = (function () {
     };
     var loadData = function (fileName, isRandom) {
         var card = {};
+        cards = [];
         $.get(fileName, function (data) {
             var lines = data.split("\n");
             $.each(lines, function (i, v) {
@@ -245,11 +248,21 @@ var NtmFlashCard = (function () {
         });
         return cardReturn;
     };
+    var setLesson = function(lesson){
+        link = "https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n"+lesson+".txt";
+        var val = $("#checkBox").is(':checked')
+        if (val == true){
+            NtmFlashCard.loadData(link, true);
+        }else {
+            NtmFlashCard.loadData(link, false);
+        }
+    };
     return {
         createCards: createCards,
         clearCard: clearCard,
         loadData: loadData,
         createCard: createCard,
+        setLesson: setLesson,
         init: init,
         open: open
     }
