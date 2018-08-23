@@ -335,13 +335,13 @@ a:hover {
 
 @media only screen and (max-width: 600px) {
     #deck {
-        height: 200px;
+        height: 260px;
         list-style: none;
         margin: 15px auto;
         padding: 0;
         position: relative;
         text-align: center;
-        width: 400px
+        width: 340px
     }
 
     #container {
@@ -359,10 +359,10 @@ a:hover {
         color: #222;
         display: none;
         font-size: 30px;
-        height: 200px;
+        height: 260px;
         line-height: 40px;
         position: relative;
-        width: 400px
+        width: 340px
     }
 
 }
