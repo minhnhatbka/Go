@@ -253,6 +253,9 @@ var NtmFlashCard = (function () {
         return cardReturn;
     };
     var setLesson = function(lesson){
+        $("#playPauseIcon").removeClass( "glyphicon glyphicon-play glyphicon-pause" ).addClass( "glyphicon glyphicon-play" );
+        $("#playPauseTitle").text("P");
+        pause();
         link = "https://raw.githubusercontent.com/minhnhatbka/minhnhatbka.github.io/master/n"+lesson+".txt";
         var val = $("#checkBox").is(':checked')
         if (val == true){
